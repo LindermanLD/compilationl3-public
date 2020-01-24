@@ -4,10 +4,34 @@ Helpers
 
 lettre = [['a' .. 'z'] + ['A' .. 'Z']];
 
+
 Tokens
 
 espaces = (' ' | 13 | 10)+;
 commentaire= '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+pointvirgule= ‘;’;
+si=’si’;
+sinon=’sinon’;
+alors=’alors’;
+tantque =’tantque’;
+faire= ‘faire’;
+retour= ‘retour’;
+parentg='(';
+parentd=')';
+accog=’{‘;
+accod=’}’;
+entier= ‘0’|’1’|’2’|’3’|’4’|’5’|’6’|’7’|’8’|’9’;
+plus= '+';
+moins= '-';
+fois= '*';
+div= '/';
+inf= '<';
+egal= '=';
+et= '&';
+ou= '|';
+non= '!';
+
+
 
 Ignored Tokens
 
@@ -16,4 +40,45 @@ espaces, commentaire;
 Productions
 
 programme = optdecvar listedecfonc ;
+
+entier=entier entier;
+
+identif=lettre;
+identif=identif  identif|identif entier|entier identif;
+
+affectation= entier | identif;
+affectation= affectation operateur entier | affectation operateur identif;
+
+si= si expression alors bloc;
+si2= si sinon bloc;
+
+tantque= tantque expresssion faire bloc;
+retour= retour expression;
+frpre=lecture | ecriture;
+frsimple=identif parentg Lexpr parentd;
+block= accog linstruction accod;
+linstruction=instruction pointvirgule | {rien};
+linstruction=instruction pointvirgule linstruction;
+
+fonction=identif parentg argument parentd variable bloc;
+argument=identif | identif args
+args=, identif args
+args=
+
+variable= identif | identif vars
+vars= , identif
+vars=
+
+lecture= var egal ‘lire()’; 
+ecriture=’ecrire(’ expression parentd;
+
+T= ‘entier’ identif[]|’entier’ identif[E];
+
+E=E’|’T|T;
+T=T’&’F|F;
+F=F’=’U|F’<’U|U;
+U=U’+’V|U’-’V|V;
+V=V’*’J|V’/’J|J;
+J=’!’I|I;
+I=parentgEparentd| entier | fonction;
 
