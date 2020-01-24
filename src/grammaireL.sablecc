@@ -16,10 +16,15 @@ alors=’alors’;
 tantque =’tantque’;
 faire= ‘faire’;
 retour= ‘retour’;
+ecrire=’ecrire’;
+entier=’entier’;
+lire=’lire’;
 parentg='(';
 parentd=')';
 accog=’{‘;
 accod=’}’;
+crochetg=’[‘;
+crochetd=’]’;
 entier= ‘0’|’1’|’2’|’3’|’4’|’5’|’6’|’7’|’8’|’9’;
 plus= '+';
 moins= '-';
@@ -46,7 +51,7 @@ entier=entier entier;
 identif=lettre;
 identif=identif  identif|identif entier|entier identif;
 
-affectation= entier | identif;
+affectation= identif egal entier | identif egal identif;
 affectation= affectation operateur entier | affectation operateur identif;
 
 si= si expression alors bloc;
@@ -62,23 +67,22 @@ linstruction=instruction pointvirgule linstruction;
 
 fonction=identif parentg argument parentd variable bloc;
 argument=identif | identif args
-args=, identif args
+args=virgule identif args
 args=
 
 variable= identif | identif vars
 vars= , identif
 vars=
 
-lecture= var egal ‘lire()’; 
-ecriture=’ecrire(’ expression parentd;
+lecture= var egal lire parentg parentd;
+ecriture=ecrire parentg expression parentd;
 
-T= ‘entier’ identif[]|’entier’ identif[E];
+T= entier identif crochetd crochetg|entier identif crochetd E crochetg;
 
-E=E’|’T|T;
-T=T’&’F|F;
-F=F’=’U|F’<’U|U;
-U=U’+’V|U’-’V|V;
-V=V’*’J|V’/’J|J;
-J=’!’I|I;
+E=E ou T|T;
+T=T et F|F;
+F=F egal U|F inf U|U;
+U=U plus V|U moins V|V;
+V=V fois J|V div J|J;
+J=non I|I;
 I=parentgEparentd| entier | fonction;
-
