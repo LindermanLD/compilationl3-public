@@ -1,19 +1,55 @@
 Package sc;
 
-Helpers
 
-lettre = [['a' .. 'z'] + ['A' .. 'Z']];
+Helpers
+ lettre = [['a' .. 'z'] + ['A' .. 'Z']];
+ entier = ['0'..'9'];
 
 Tokens
 
-espaces = (' ' | 13 | 10)+;
-commentaire= '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+ nom = lettre;
+
+ typeentier = 'entier ';
+
+ plus   = '+';
+ moins  = '-';
+ multi  = '*';
+ div    = '/';
+ inf    = '<';
+ egal   = '=';
+ et     = '&';
+ ou     = '|';
+ non    = '!';
+
+ accoladeo    = '{';
+ accoladef    = '}';
+ parentheseo  = '(';
+ parenthesef  = ')';
+ pointvirgule = ';';
+ espaces      = (' ' | 13 | 10)+;
+
+ si      = 'si';
+ alors   = 'alors';
+ sinon   = 'sinon';
+ retour  = 'retour';
+ tantque = 'tantque';
+ faire   = 'faire';
+
+ fonction = 'fonction';
+ commentaire = '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+ nombre = entier+;
 
 Ignored Tokens
-
-espaces, commentaire;
+ espaces, commentaire;
 
 Productions
+ /* listedecfonc */
+ programme = optdecvar affectation;
 
-programme = optdecvar listedecfonc ;
+ nomvar = {nom} nom nomvar | {rien};
 
+ optdecvar = {decvar} decvar+ | {rien};
+ decvar =  typeentier nomvar pointvirgule;
+
+ affectation = {affect} affect+ | {rien};
+ affect = nomvar egal nombre pointvirgule;
