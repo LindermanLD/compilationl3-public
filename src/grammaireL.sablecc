@@ -9,23 +9,24 @@ Tokens
 
 espaces = (' ' | 13 | 10)+;
 commentaire= '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
-pointvirgule= ‘;’;
-si=’si’;
-sinon=’sinon’;
-alors=’alors’;
-tantque =’tantque’;
-faire= ‘faire’;
-retour= ‘retour’;
-ecrire=’ecrire’;
-entier=’entier’;
-lire=’lire’;
+pointvirgule= ';';
+virgule=',';
+si='sfi';
+sinon='sinon';
+alors='alors';
+tantque ='tantque';
+faire= 'faire';
+retour= 'retour';
+ecrire='ecrire';
+entier='entier';
+lire='lire';
 parentg='(';
 parentd=')';
-accog=’{‘;
-accod=’}’;
-crochetg=’[‘;
-crochetd=’]’;
-entier= ‘0’|’1’|’2’|’3’|’4’|’5’|’6’|’7’|’8’|’9’;
+accog='{';
+accod='}';
+crochetg='[';
+crochetd=']';
+entier= ['0' .. '9'];
 plus= '+';
 moins= '-';
 fois= '*';
@@ -60,29 +61,31 @@ si2= si sinon bloc;
 tantque= tantque expresssion faire bloc;
 retour= retour expression;
 frpre=lecture | ecriture;
-frsimple=identif parentg Lexpr parentd;
+frsimple=identif parentg lexpr parentd;
 block= accog linstruction accod;
 linstruction=instruction pointvirgule | {rien};
 linstruction=instruction pointvirgule linstruction;
 
 fonction=identif parentg argument parentd variable bloc;
-argument=identif | identif args
-args=virgule identif args
-args=
+argument=identif | identif args;
+args=virgule identif args;
+args=;
 
-variable= identif | identif vars
-vars= , identif
-vars=
+variable= identif | identif vars;
+vars= virgule identif;
+vars=;
 
 lecture= var egal lire parentg parentd;
 ecriture=ecrire parentg expression parentd;
 
-T= entier identif crochetd crochetg|entier identif crochetd E crochetg;
+tableau=identif crochetd crochetg|crochetd expression crochetg;
+tableauinit= entier identif tableau;
 
-E=E ou T|T;
-T=T et F|F;
-F=F egal U|F inf U|U;
-U=U plus V|U moins V|V;
-V=V fois J|V div J|J;
-J=non I|I;
-I=parentgEparentd| entier | fonction;
+expression=expression ou t | t;
+t=t et f | f;
+f=f egal u | f inf u | u;
+u=u plus v | u moins v | v;
+v=v fois j | v div j | j;
+j=non i|i;
+i=parentg expression parentd | entier | fonction;
+
