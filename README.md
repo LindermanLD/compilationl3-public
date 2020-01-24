@@ -1,3 +1,4 @@
 # compilationl3-public
 
-java -jar sablecc.jar test/input/affect.l 
+java -jar sablecc.jar src/grammaireL.sablecc 
+
