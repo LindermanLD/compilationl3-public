@@ -1,9 +1,11 @@
+import sa.SaExp;
+import sa.SaExpSub;
 import sa.SaNode;
 import sc.analysis.DepthFirstAdapter;
 import sc.node.*;
 
-public class Sc2a extends DepthFirstAdapter {
-    private SaNode returnvalue;
+public class Sc2sa extends DepthFirstAdapter {
+    private SaNode returnValue;
 
     @Override
     public void defaultIn(Node node) {
@@ -237,7 +239,13 @@ public class Sc2a extends DepthFirstAdapter {
 
     @Override
     public void caseAMoinsExp3(AMoinsExp3 node) {
-        super.caseAMoinsExp3(node);
+        SaExp op1 =null;
+        SaExp op2 =null;
+        node.getExp3().apply(this);
+        op1 = (SaExp)this.returnValue;
+        node.getExp4().apply(this);
+        op2 = (SaExp)this.returnValue;
+        this.returnValue = new SaExpSub(op1,op2);
     }
 
     @Override
@@ -333,5 +341,8 @@ public class Sc2a extends DepthFirstAdapter {
     @Override
     public void caseASansparamAppelfct(ASansparamAppelfct node) {
         super.caseASansparamAppelfct(node);
+    }
+
+    public SaNode getRoot() {
     }
 }
