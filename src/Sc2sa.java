@@ -6,7 +6,12 @@ import sc.analysis.DepthFirstAdapter;
 import sc.node.*;
 
 public class Sc2sa extends DepthFirstAdapter {
+
     private SaNode returnValue;
+
+    public SaNode getRoot() {
+        return returnValue;
+    }
 
     private SaNode apply(Switchable sc) {
         sc.apply(this);
@@ -337,7 +342,4 @@ public class Sc2sa extends DepthFirstAdapter {
         super.caseASansparamAppelfct(node);
     }
 
-    public SaNode getRoot() {
-        return returnValue;
-    }
 }
