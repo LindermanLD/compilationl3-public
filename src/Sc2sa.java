@@ -1,4 +1,5 @@
 import sa.SaExp;
+import sa.SaExpAdd;
 import sa.SaExpSub;
 import sa.SaNode;
 import sc.analysis.DepthFirstAdapter;
@@ -7,19 +8,14 @@ import sc.node.*;
 public class Sc2sa extends DepthFirstAdapter {
     private SaNode returnValue;
 
-    @Override
-    public void defaultIn(Node node) {
-        super.defaultIn(node);
-    }
-
-    @Override
-    public void defaultOut(Node node) {
-        super.defaultOut(node);
+    private SaNode apply(Switchable sc) {
+        sc.apply(this);
+        return returnValue;
     }
 
     @Override
     public void caseStart(Start node) {
-        super.caseStart(node);
+        apply(node.getPProgramme());
     }
 
     @Override
@@ -234,18 +230,16 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAPlusExp3(APlusExp3 node) {
-        super.caseAPlusExp3(node);
+        SaExp op1 = (SaExp) apply(node.getExp3());
+        SaExp op2 = (SaExp) apply(node.getExp4());
+        this.returnValue = new SaExpAdd(op1, op2);
     }
 
     @Override
     public void caseAMoinsExp3(AMoinsExp3 node) {
-        SaExp op1 =null;
-        SaExp op2 =null;
-        node.getExp3().apply(this);
-        op1 = (SaExp)this.returnValue;
-        node.getExp4().apply(this);
-        op2 = (SaExp)this.returnValue;
-        this.returnValue = new SaExpSub(op1,op2);
+        SaExp op1 = (SaExp) apply(node.getExp3());
+        SaExp op2 = (SaExp) apply(node.getExp4());
+        this.returnValue = new SaExpSub(op1, op2);
     }
 
     @Override
@@ -344,5 +338,6 @@ public class Sc2sa extends DepthFirstAdapter {
     }
 
     public SaNode getRoot() {
+        return returnValue;
     }
 }
