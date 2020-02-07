@@ -1,7 +1,4 @@
-import sa.SaExp;
-import sa.SaExpAdd;
-import sa.SaExpSub;
-import sa.SaNode;
+import sa.*;
 import sc.analysis.DepthFirstAdapter;
 import sc.node.*;
 
@@ -249,49 +246,55 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAExp4Exp3(AExp4Exp3 node) {
-        super.caseAExp4Exp3(node);
+        apply(node.getExp4());
     }
 
     @Override
     public void caseAFoisExp4(AFoisExp4 node) {
-        super.caseAFoisExp4(node);
+        SaExp op1 = (SaExp) apply(node.getExp4());
+        SaExp op2 = (SaExp) apply(node.getExp5());
+        this.returnValue = new SaExpMult(op1, op2);
     }
 
     @Override
     public void caseADiviseExp4(ADiviseExp4 node) {
-        super.caseADiviseExp4(node);
+        SaExp op1 = (SaExp) apply(node.getExp4());
+        SaExp op2 = (SaExp) apply(node.getExp5());
+        this.returnValue = new SaExpDiv(op1, op2);
     }
 
     @Override
     public void caseAExp5Exp4(AExp5Exp4 node) {
-        super.caseAExp5Exp4(node);
+        apply(node.getExp5());
     }
 
     @Override
     public void caseANonExp5(ANonExp5 node) {
-        super.caseANonExp5(node);
+        SaExp op1 = (SaExp) apply(node.getExp5());
+        this.returnValue = new SaExpNot(op1);
     }
 
     @Override
     public void caseAExp6Exp5(AExp6Exp5 node) {
-        super.caseAExp6Exp5(node);
+        apply(node.getExp6());
     }
 
     @Override
     public void caseANombreExp6(ANombreExp6 node) {
-        super.caseANombreExp6(node);
+        apply(node.getNombre());
     }
 
     @Override
     public void caseAAppelfctExp6(AAppelfctExp6 node) {
-        super.caseAAppelfctExp6(node);
+        apply(node.getAppelfct());
     }
 
     @Override
     public void caseAVarExp6(AVarExp6 node) {
-        super.caseAVarExp6(node);
+        apply(node.getVar());
     }
 
+    // TODO
     @Override
     public void caseAParenthesesExp6(AParenthesesExp6 node) {
         super.caseAParenthesesExp6(node);
@@ -299,9 +302,10 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseALireExp6(ALireExp6 node) {
-        super.caseALireExp6(node);
+        apply(node.getLire());
     }
 
+    // TODO
     @Override
     public void caseAVartabVar(AVartabVar node) {
         super.caseAVartabVar(node);
@@ -309,12 +313,12 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAVarsimpleVar(AVarsimpleVar node) {
-        super.caseAVarsimpleVar(node);
+        apply(node.getIdentif());
     }
 
     @Override
     public void caseARecursifListeexp(ARecursifListeexp node) {
-        super.caseARecursifListeexp(node);
+        apply(node.getListeexpbis());
     }
 
     @Override
@@ -334,12 +338,15 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAAvecparamAppelfct(AAvecparamAppelfct node) {
+
         super.caseAAvecparamAppelfct(node);
     }
 
     @Override
     public void caseASansparamAppelfct(ASansparamAppelfct node) {
+        new ASansparamAppelfct();
         super.caseASansparamAppelfct(node);
     }
+
 
 }
