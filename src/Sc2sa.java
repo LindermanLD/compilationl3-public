@@ -1,7 +1,4 @@
-import sa.SaExp;
-import sa.SaExpAdd;
-import sa.SaExpSub;
-import sa.SaNode;
+import sa.*;
 import sc.analysis.DepthFirstAdapter;
 import sc.node.*;
 
@@ -165,72 +162,87 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseASanssinonInstrsi(ASanssinonInstrsi node) {
-        super.caseASanssinonInstrsi(node);
+        SaExp op= (SaExp) apply(node.getExp());
+        SaInst inst= (SaInst) apply(node.getInstrbloc());
+        SaInst alors = (SaInst) apply(node.getAlors());
+        returnValue = new SaInstSi(op,alors,inst);
     }
 
     @Override
     public void caseAInstrsinon(AInstrsinon node) {
-        super.caseAInstrsinon(node);
+        apply(node.getInstrbloc());
     }
 
     @Override
     public void caseAInstrtantque(AInstrtantque node) {
-        super.caseAInstrtantque(node);
+        SaExp op= (SaExp) apply(node.getExp());
+        SaInst op2 = (SaInst) apply(node.getInstrbloc());
+        returnValue = new SaInstTantQue(op,op2);
     }
 
     @Override
     public void caseAInstrappel(AInstrappel node) {
-        super.caseAInstrappel(node);
+        apply(node.getAppelfct());
     }
 
     @Override
     public void caseAInstrretour(AInstrretour node) {
-        super.caseAInstrretour(node);
+        SaExp op= (SaExp) apply(node.getExp());
+        returnValue = new SaInstRetour(op);
     }
 
     @Override
     public void caseAInstrecriture(AInstrecriture node) {
-        super.caseAInstrecriture(node);
+        SaExp op3 = (SaExp) apply(node.getExp());
+        returnValue = new SaInstEcriture(op3);
     }
 
     @Override
     public void caseAInstrvide(AInstrvide node) {
-        super.caseAInstrvide(node);
+        apply(node.getPointVirgule());
     }
 
     @Override
     public void caseAOuExp(AOuExp node) {
-        super.caseAOuExp(node);
+        SaExp op1 = (SaExp) apply(node.getExp());
+        SaExp op2 = (SaExp) apply(node.getExp1());
+        this.returnValue = new SaExpOr(op1,op2);
     }
 
     @Override
     public void caseAExp1Exp(AExp1Exp node) {
-        super.caseAExp1Exp(node);
+        apply(node.getExp1());
     }
 
     @Override
     public void caseAEtExp1(AEtExp1 node) {
-        super.caseAEtExp1(node);
+        SaExp op1 = (SaExp) apply(node.getExp1());
+        SaExp op2 = (SaExp) apply(node.getExp2());
+        this.returnValue = new SaExpAnd(op1,op2);
     }
 
     @Override
     public void caseAExp2Exp1(AExp2Exp1 node) {
-        super.caseAExp2Exp1(node);
+        apply(node.getExp2());
     }
 
     @Override
     public void caseAInfExp2(AInfExp2 node) {
-        super.caseAInfExp2(node);
+        SaExp op1 = (SaExp) apply(node.getExp2());
+        SaExp op2 = (SaExp) apply(node.getExp3());
+        this.returnValue = new SaExpInf(op1,op2);
     }
 
     @Override
     public void caseAEgalExp2(AEgalExp2 node) {
-        super.caseAEgalExp2(node);
+        SaExp op1 = (SaExp) apply(node.getExp2());
+        SaExp op2 = (SaExp) apply(node.getExp3());
+        this.returnValue = new SaExpEqual(op1,op2);
     }
 
     @Override
     public void caseAExp3Exp2(AExp3Exp2 node) {
-        super.caseAExp3Exp2(node);
+        apply(node.getExp3());
     }
 
     @Override
