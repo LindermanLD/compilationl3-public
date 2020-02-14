@@ -67,105 +67,120 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseALdecfoncrecListedecfonc(ALdecfoncrecListedecfonc node) {
-        super.caseALdecfoncrecListedecfonc(node);
+        SaDec decfonc = (SaDec) apply(node.getDecfonc());
+        SaLDec ldecfonc = (SaLDec) apply(node.getListedecfonc());
+        returnValue = new SaLDec(decfonc,ldecfonc);
     }
 
     @Override
     public void caseALdecfoncfinalListedecfonc(ALdecfoncfinalListedecfonc node) {
-        super.caseALdecfoncfinalListedecfonc(node);
+        returnValue = null;
     }
 
     @Override
     public void caseADecvarinstrDecfonc(ADecvarinstrDecfonc node) {
-        super.caseADecvarinstrDecfonc(node);
+        String indetif = apply(node.getIdentif()).toString();
+        SaLDec var= (SaLDec) apply(node.getListeparam());
+        SaLDec listepar= (SaLDec) apply(node.getListeparam());
+        SaInst bloc = (SaInst) apply(node.getInstrbloc());
+        returnValue = new SaDecFonc(indetif,listepar,var,bloc);
     }
 
     @Override
     public void caseAInstrDecfonc(AInstrDecfonc node) {
-        super.caseAInstrDecfonc(node);
+        String indetif= apply(node.getIdentif()).toString();
+        SaLDec listepar= (SaLDec) apply(node.getListeparam());
+        SaInst bloc = (SaInst) apply(node.getInstrbloc());
+        returnValue = new SaDecFonc(indetif,listepar,null,bloc);
     }
 
     @Override
     public void caseASansparamListeparam(ASansparamListeparam node) {
-        super.caseASansparamListeparam(node);
+        returnValue= null;
     }
 
     @Override
     public void caseAAvecparamListeparam(AAvecparamListeparam node) {
-        super.caseAAvecparamListeparam(node);
+        apply(node.getListedecvar());
     }
 
     @Override
     public void caseAInstraffectInstr(AInstraffectInstr node) {
-        super.caseAInstraffectInstr(node);
+        apply(node.getInstraffect());
     }
 
     @Override
     public void caseAInstrblocInstr(AInstrblocInstr node) {
-        super.caseAInstrblocInstr(node);
+        apply(node.getInstrbloc());
     }
 
     @Override
     public void caseAInstrsiInstr(AInstrsiInstr node) {
-        super.caseAInstrsiInstr(node);
+        apply(node.getInstrsi());
     }
 
     @Override
     public void caseAInstrtantqueInstr(AInstrtantqueInstr node) {
-        super.caseAInstrtantqueInstr(node);
+        apply(node.getInstrtantque());
     }
 
     @Override
     public void caseAInstrappelInstr(AInstrappelInstr node) {
-        super.caseAInstrappelInstr(node);
+        apply(node.getInstrappel());
     }
 
     @Override
     public void caseAInstrretourInstr(AInstrretourInstr node) {
-        super.caseAInstrretourInstr(node);
+        apply(node.getInstrretour());
     }
 
     @Override
     public void caseAInstrecritureInstr(AInstrecritureInstr node) {
-        super.caseAInstrecritureInstr(node);
+        apply(node.getInstrecriture());
     }
 
     @Override
     public void caseAInstrvideInstr(AInstrvideInstr node) {
-        super.caseAInstrvideInstr(node);
+        apply(node.getInstrvide());
     }
 
     @Override
     public void caseAInstraffect(AInstraffect node) {
-        super.caseAInstraffect(node);
+        SaExp var= (SaExp) apply(node.getVar());
+        SaExp exp= (SaExp) apply(node.getExp());
+        returnValue = new SaExpEqual(var,exp);
     }
 
     @Override
     public void caseAInstrbloc(AInstrbloc node) {
-        super.caseAInstrbloc(node);
+        apply(node.getListeinst());
     }
 
     @Override
     public void caseALinstrecListeinst(ALinstrecListeinst node) {
-        super.caseALinstrecListeinst(node);
+        SaInst inst= (SaInst) apply(node.getInstr());
+        SaLInst list= (SaLInst) apply(node.getListeinst());
+        returnValue = new SaLInst(inst,list);
     }
 
     @Override
     public void caseALinstfinalListeinst(ALinstfinalListeinst node) {
-        super.caseALinstfinalListeinst(node);
+        returnValue= null;
     }
 
     @Override
     public void caseAAvecsinonInstrsi(AAvecsinonInstrsi node) {
-        super.caseAAvecsinonInstrsi(node);
+        SaExp op= (SaExp) apply(node.getExp());
+        SaInst inst= (SaInst) apply(node.getInstrbloc());
+        SaInst instrsinon = (SaInst) apply(node.getInstrsinon());
+        returnValue= new SaInstSi(op,inst,instrsinon);
     }
 
     @Override
     public void caseASanssinonInstrsi(ASanssinonInstrsi node) {
         SaExp op= (SaExp) apply(node.getExp());
         SaInst inst= (SaInst) apply(node.getInstrbloc());
-        SaInst alors = (SaInst) apply(node.getAlors());
-        returnValue = new SaInstSi(op,alors,inst);
+        returnValue = new SaInstSi(op,inst,null);
     }
 
     @Override
