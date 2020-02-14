@@ -36,7 +36,6 @@ public class Sc2sa extends DepthFirstAdapter {
     @Override
     public void caseAOptdecvar(AOptdecvar node) {
         SaDecVar DecVar1 = (SaDecVar) apply(node.getListedecvar());
-        apply(node.getPointVirgule());
         returnValue = new SaDecVar(DecVar1.getNom());
     }
 
@@ -82,7 +81,7 @@ public class Sc2sa extends DepthFirstAdapter {
     public void caseADecvartableauDecvar(ADecvartableauDecvar node) {
         SaNode node1 = (SaNode) apply(node.getIdentif());
         SaNode node2 = (SaNode) apply(node.getNombre());
-        //ssreturnValue = new SaDecTab(node1.toString(), );
+        returnValue = new SaDecTab(node1.toString(), );
     }
 
     @Override
@@ -346,9 +345,7 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAParenthesesExp6(AParenthesesExp6 node) {
-        apply(node.getParentheseOuvrante());
         apply(node.getExp());
-        apply(node.getParentheseFermante());
     }
 
     @Override
@@ -358,10 +355,9 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAVartabVar(AVartabVar node) {
-        apply(node.getIdentif());
-        apply(node.getCrochetOuvrant());
-        apply(node.getExp());
-        apply(node.getCrochetFermant());
+        String identif = apply(node.getIdentif()).toString();
+        SaExp exp = (SaExp) apply(node.getExp());
+        returnValue = new SaVarIndicee(identif, exp);
     }
 
     @Override
@@ -381,32 +377,26 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAFinalListeexpbis(AFinalListeexpbis node) {
-        apply(node.getVirgule());
         apply(node.getExp());
     }
 
     @Override
     public void caseARecursifListeexpbis(ARecursifListeexpbis node) {
-        apply(node.getVirgule());
-        apply(node.getExp());
-        apply(node.getListeexpbis());
-        ;
+        SaExp Exp1 = (SaExp) apply(node.getExp());
+        SaLExp Lexp1 = (SaLExp) apply(node.getListeexpbis());
+        returnValue = new SaLExp(Exp1, Lexp1);
     }
 
     @Override
     public void caseAAvecparamAppelfct(AAvecparamAppelfct node) {
-        apply(node.getIdentif());
-        apply(node.getParentheseOuvrante());
-        apply(node.getListeexp();
-        apply(node.getParentheseFermante());
+        SaNode node1 = apply(node.getIdentif());
+        SaLExp Lexp1 = (SaLExp) apply(node.getListeexp());
+        returnValue = new SaAppel(node1.toString(), Lexp1);
     }
 
     @Override
     public void caseASansparamAppelfct(ASansparamAppelfct node) {
         apply(node.getIdentif());
-        apply(node.getParentheseOuvrante());
-        apply(node.getParentheseFermante());
     }
-
 
 }
