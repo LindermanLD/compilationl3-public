@@ -22,47 +22,67 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseADecvarldecfoncProgramme(ADecvarldecfoncProgramme node) {
-        super.caseADecvarldecfoncProgramme(node);
+        SaLDec Dec1 = (SaLDec) apply(node.getOptdecvar());
+        SaLDec Dec2 = (SaLDec) apply(node.getListedecfonc());
+        returnValue = new SaProg(Dec1, Dec2);
     }
 
     @Override
     public void caseALdecfoncProgramme(ALdecfoncProgramme node) {
-        super.caseALdecfoncProgramme(node);
+        apply(node.getListedecfonc());
     }
 
+    //TODO
     @Override
     public void caseAOptdecvar(AOptdecvar node) {
-        super.caseAOptdecvar(node);
+        SaDecVar DecVar1 = (SaDecVar) apply(node.getListedecvar());
+        apply(node.getPointVirgule());
+        returnValue = new SaDecVar(DecVar1.getNom());
     }
 
+    //TODO
     @Override
     public void caseADecvarldecvarListedecvar(ADecvarldecvarListedecvar node) {
-        super.caseADecvarldecvarListedecvar(node);
+        SaDecVar DecVar1 = (SaDecVar) apply(node.getDecvar());
+        apply(node.getListedecvarbis());
+        returnValue = new SaDecVar(DecVar1.getNom());
     }
 
     @Override
     public void caseADecvarListedecvar(ADecvarListedecvar node) {
-        super.caseADecvarListedecvar(node);
+        apply(node.getDecvar());
     }
 
+    //TODO
     @Override
     public void caseADecvarldecvarListedecvarbis(ADecvarldecvarListedecvarbis node) {
-        super.caseADecvarldecvarListedecvarbis(node);
+        SaDecVar DecVar1 = (SaDecVar) apply(node.getDecvar());
+        apply(node.getListedecvarbis());
+        returnValue = new SaDecVar(DecVar1.getNom());
     }
 
+    //TODO
     @Override
     public void caseADecvarListedecvarbis(ADecvarListedecvarbis node) {
-        super.caseADecvarListedecvarbis(node);
+        apply(node.getVirgule());
+        SaDecVar DecVar2 = (SaDecVar) apply(node.getDecvar());
+        returnValue = new SaDecVar(DecVar2.getNom());
     }
 
+    //TODO
     @Override
     public void caseADecvarentierDecvar(ADecvarentierDecvar node) {
-        super.caseADecvarentierDecvar(node);
+        apply(node.getEntier());
+        apply(node.getIdentif());
+
     }
 
+    //TODO
     @Override
     public void caseADecvartableauDecvar(ADecvartableauDecvar node) {
-        super.caseADecvartableauDecvar(node);
+        SaNode node1 = (SaNode) apply(node.getIdentif());
+        SaNode node2 = (SaNode) apply(node.getNombre());
+        //ssreturnValue = new SaDecTab(node1.toString(), );
     }
 
     @Override
@@ -324,10 +344,11 @@ public class Sc2sa extends DepthFirstAdapter {
         apply(node.getVar());
     }
 
-    // TODO
     @Override
     public void caseAParenthesesExp6(AParenthesesExp6 node) {
-        super.caseAParenthesesExp6(node);
+        apply(node.getParentheseOuvrante());
+        apply(node.getExp());
+        apply(node.getParentheseFermante());
     }
 
     @Override
@@ -335,10 +356,12 @@ public class Sc2sa extends DepthFirstAdapter {
         apply(node.getLire());
     }
 
-    // TODO
     @Override
     public void caseAVartabVar(AVartabVar node) {
-        super.caseAVartabVar(node);
+        apply(node.getIdentif());
+        apply(node.getCrochetOuvrant());
+        apply(node.getExp());
+        apply(node.getCrochetFermant());
     }
 
     @Override
@@ -353,29 +376,36 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAFinalListeexp(AFinalListeexp node) {
-        super.caseAFinalListeexp(node);
+        apply(node.getExp());
     }
 
     @Override
     public void caseAFinalListeexpbis(AFinalListeexpbis node) {
-        super.caseAFinalListeexpbis(node);
+        apply(node.getVirgule());
+        apply(node.getExp());
     }
 
     @Override
     public void caseARecursifListeexpbis(ARecursifListeexpbis node) {
-        super.caseARecursifListeexpbis(node);
+        apply(node.getVirgule());
+        apply(node.getExp());
+        apply(node.getListeexpbis());
+        ;
     }
 
     @Override
     public void caseAAvecparamAppelfct(AAvecparamAppelfct node) {
-
-        super.caseAAvecparamAppelfct(node);
+        apply(node.getIdentif());
+        apply(node.getParentheseOuvrante());
+        apply(node.getListeexp();
+        apply(node.getParentheseFermante());
     }
 
     @Override
     public void caseASansparamAppelfct(ASansparamAppelfct node) {
-        new ASansparamAppelfct();
-        super.caseASansparamAppelfct(node);
+        apply(node.getIdentif());
+        apply(node.getParentheseOuvrante());
+        apply(node.getParentheseFermante());
     }
 
 
