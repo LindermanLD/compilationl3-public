@@ -4,7 +4,7 @@ TOOLS :
 
 Terminal command line
 
-java -jar sablecc.jar src/grammaireL.sablecc2
+java -jar sablecc.jar src/grammaireL.sablecc
 
 cd test/compare_arbres
 
