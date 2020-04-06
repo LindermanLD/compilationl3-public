@@ -1,8 +1,8 @@
 #! /usr/bin/python3
 
-import sys
 import os
 import subprocess
+import sys
 
 # Paths relative to this file (evaluate.py)
 inputPath = "./input/"
@@ -237,13 +237,13 @@ if __name__ == "__main__" :
 
   useColor = True
 
-  if useColor :
+  if useColor:
     print("Légende : {}  {}  {}".format(green("CORRECT"), purple("INCORRECT"), red("NON-EXISTANT")))
 
   printEvaluationResult(sys.stdout, saEvaluation, useColor)
-  printEvaluationResult(sys.stdout, saOutEvaluation, useColor)
-  printEvaluationResult(sys.stdout, tsEvaluation, useColor)
-  printEvaluationResult(sys.stdout, c3aEvaluation, useColor)
-  printEvaluationResult(sys.stdout, nasmEvaluation, useColor)
+  # printEvaluationResult(sys.stdout, saOutEvaluation, useColor)
+  # printEvaluationResult(sys.stdout, tsEvaluation, useColor)
+  # printEvaluationResult(sys.stdout, c3aEvaluation, useColor)
+  # printEvaluationResult(sys.stdout, nasmEvaluation, useColor)
 ################################################################################
 

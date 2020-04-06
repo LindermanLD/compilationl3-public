@@ -1,11 +1,13 @@
 package ig;
 
-import fg.*;
-import nasm.*;
-import util.graph.*;
-import util.intset.*;
-import java.util.*;
-import java.io.*;
+import fg.FgSolution;
+import nasm.Nasm;
+import util.graph.Graph;
+import util.graph.Node;
+import util.graph.NodeList;
+
+import java.io.IOException;
+import java.io.PrintStream;
 
 public class Ig {
     public Graph graph;
@@ -15,21 +17,21 @@ public class Ig {
     public Node int2Node[];
 
     
-    public Ig(FgSolution fgs){
-	this.fgs = fgs;
- 	this.graph = new Graph();
-	this.nasm = fgs.nasm;
-	this.regNb = this.nasm.getTempCounter();
-	this.int2Node = new Node[regNb];
-	this.build();
-    }
+    public Ig(FgSolution fgs) {
+		this.fgs = fgs;
+		this.graph = new Graph();
+		this.nasm = fgs.nasm;
+		this.regNb = this.nasm.getTempCounter();
+		this.int2Node = new Node[regNb];
+		this.construction();
+	}
 
     public void construction(){
     }
 
-    public int[] getPrecoloredTemporaries()
-    {
-    }
+    public int[] getPrecoloredTemporaries() {
+		return null;
+	}
 
 
     public void allocateRegisters(){

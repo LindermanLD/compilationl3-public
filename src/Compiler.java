@@ -1,8 +1,10 @@
 import sa.Sa2Xml;
+import sa.SaEval;
 import sa.SaNode;
 import sc.lexer.Lexer;
 import sc.node.Start;
 import sc.parser.Parser;
+import ts.Ts;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -41,54 +43,54 @@ public class Compiler {
 
             System.out.println("[PRINT SA]");
             new Sa2Xml(saRoot, baseName);
-		    
-	    /*System.out.print("[BUILD TS] ");
-	    Ts table = new Sa2ts(saRoot).getTableGlobale();
 
-	    System.out.println("[PRINT TS]");
-	    table.afficheTout(baseName);
+            System.out.print("[BUILD TS] ");
+            Ts table = new Sa2ts(saRoot).getTableGlobale();
 
-	    System.out.print("[EXEC SA] ");
-	    SaEval saEval = new SaEval(saRoot, table);
+            System.out.println("[PRINT TS]");
+            table.afficheTout(baseName);
 
-	    System.out.println("[SA OUT]");
-	    saEval.affiche(baseName);
+            System.out.print("[EXEC SA] ");
+            SaEval saEval = new SaEval(saRoot, table);
 
-	    System.out.print("[BUILD C3A] ");
-	    C3a c3a = new Sa2c3a(saRoot).getC3a();
+            System.out.println("[SA OUT]");
+            saEval.affiche(baseName);
 
-	    System.out.print("[PRINT C3A] ");
-	    c3a.affiche(baseName);
+            /*System.out.print("[BUILD C3A] ");
+            C3a c3a = new Sa2c3a(saRoot).getC3a();
 
-	    System.out.println("[C3A OUT]");
-	    C3aEval c3aEval = new C3aEval(c3a, table);
-	    c3aEval.affiche(baseName);
-	    
-	    System.out.print("[BUILD PRE NASM] ");
-	    Nasm nasm = new C3a2nasm(c3a, table).getNasm();
-	    System.out.println("[PRINT PRE NASM] ");
-	    nasm.affichePre(baseName);
+            System.out.print("[PRINT C3A] ");
+            c3a.affiche(baseName);
 
-	    System.out.print("[BUILD FG] ");
-	    Fg fg = new Fg(nasm);
-	    System.out.print("[PRINT FG] ");
-	    fg.affiche(baseName);
+            System.out.println("[C3A OUT]");
+            C3aEval c3aEval = new C3aEval(c3a, table);
+            c3aEval.affiche(baseName);
 
-	    System.out.println("[SOLVE FG]");
-	    FgSolution fgSolution = new FgSolution(nasm, fg);
-	    fgSolution.affiche(baseName);
-	    
-	    System.out.print("[BUILD IG] ");
-	    Ig ig = new Ig(fgSolution);
+            System.out.print("[BUILD PRE NASM] ");
+            Nasm nasm = new C3a2nasm(c3a, table).getNasm();
+            System.out.println("[PRINT PRE NASM] ");
+            nasm.affichePre(baseName);
 
-	    System.out.print("[PRINT IG] ");
-	    ig.affiche(baseName);
+            System.out.print("[BUILD FG] ");
+            Fg fg = new Fg(nasm);
+            System.out.print("[PRINT FG] ");
+            fg.affiche(baseName);
 
-	    System.out.println("[ALLOCATE REGISTERS]");
-	    ig.allocateRegisters();
+            System.out.println("[SOLVE FG]");
+            FgSolution fgSolution = new FgSolution(nasm, fg);
+            fgSolution.affiche(baseName);
 
-	    System.out.println("[PRINT NASM]");
-	    nasm.affiche(baseName);*/
+            System.out.print("[BUILD IG] ");
+            Ig ig = new Ig(fgSolution);
+
+            System.out.print("[PRINT IG] ");
+            ig.affiche(baseName);
+
+            System.out.println("[ALLOCATE REGISTERS]");
+            ig.allocateRegisters();
+
+            System.out.println("[PRINT NASM]");
+            nasm.affiche(baseName);*/
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
