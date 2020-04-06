@@ -6,9 +6,8 @@ Projet de groupe de Compilation - Groupe CHATEL-GUIZELIN
 
 ### Team members
 
-- CHATEL Roméo (RoméoC13)
-- GUIZELIN Florian (LindermanLD)
-
+- CHATEL Roméo
+- GUIZELIN Florian
 ## Tools
 
 ### Generate sc packages
