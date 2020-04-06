@@ -32,14 +32,12 @@ public class Sc2sa extends DepthFirstAdapter {
         apply(node.getListedecfonc());
     }
 
-    //TODO
     @Override
     public void caseAOptdecvar(AOptdecvar node) {
         SaDecVar DecVar1 = (SaDecVar) apply(node.getListedecvar());
         returnValue = new SaDecVar(DecVar1.getNom());
     }
 
-    //TODO
     @Override
     public void caseADecvarldecvarListedecvar(ADecvarldecvarListedecvar node) {
         SaDecVar DecVar1 = (SaDecVar) apply(node.getDecvar());
@@ -52,7 +50,6 @@ public class Sc2sa extends DepthFirstAdapter {
         apply(node.getDecvar());
     }
 
-    //TODO
     @Override
     public void caseADecvarldecvarListedecvarbis(ADecvarldecvarListedecvarbis node) {
         SaDecVar DecVar1 = (SaDecVar) apply(node.getDecvar());
@@ -60,7 +57,6 @@ public class Sc2sa extends DepthFirstAdapter {
         returnValue = new SaDecVar(DecVar1.getNom());
     }
 
-    //TODO
     @Override
     public void caseADecvarListedecvarbis(ADecvarListedecvarbis node) {
         apply(node.getVirgule());
@@ -68,20 +64,17 @@ public class Sc2sa extends DepthFirstAdapter {
         returnValue = new SaDecVar(DecVar2.getNom());
     }
 
-    //TODO
     @Override
     public void caseADecvarentierDecvar(ADecvarentierDecvar node) {
-        apply(node.getEntier());
-        apply(node.getIdentif());
-
+        SaNode node1 = apply(node.getIdentif());
+        returnValue = new SaDecVar(node1.toString());
     }
 
-    //TODO
     @Override
     public void caseADecvartableauDecvar(ADecvartableauDecvar node) {
-        SaNode node1 = (SaNode) apply(node.getIdentif());
-        SaNode node2 = (SaNode) apply(node.getNombre());
-        returnValue = new SaDecTab(node1.toString(), );
+        SaNode node1 = apply(node.getIdentif());
+        SaNode node2 = apply(node.getNombre());
+        returnValue = new SaDecTab(node1.toString(), Integer.parseInt(node2.toString()));
     }
 
     @Override

@@ -1,6 +1,8 @@
-import java.io.*;
-import sc.analysis.*;
-import sc.node.*;
+import sc.analysis.DepthFirstAdapter;
+import sc.node.Node;
+
+import java.io.IOException;
+import java.io.PrintStream;
 
 class Sc2Xml extends DepthFirstAdapter
 {
