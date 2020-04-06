@@ -1,0 +1,106 @@
+Package sc;
+
+Helpers
+
+lettre = [['a' .. 'z'] + ['A' .. 'Z']];
+entier = ['0'..'9'];
+
+
+Tokens
+
+espaces = (' ' | 13 | 10)+;
+commentaire= '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+pointvirgule= ';';
+virgule=',';
+si='si';
+sinon='sinon';
+alors='alors';
+tantque ='tantque';
+faire= 'faire';
+retour= 'retour';
+ecrire='ecrire';
+entiertype='entier';
+lire='lire';
+parentg='(';
+parentd=')';
+accog='{';
+accod='}';
+crochetg='[';
+crochetd=']';
+plus= '+';
+moins= '-';
+fois= '*';
+div= '/';
+inf= '<';
+egal= '=';
+et= '&';
+ou= '|';
+non= '!';
+
+nombre = entier+;
+
+Ignored Tokens
+
+espaces, commentaire;
+
+Productions
+
+programme = {optdecvar} optdecvar listedecfonc | {listedefonc} listedecfonc;
+
+optdecvar = listedecvar pointvirgule;
+
+listedecvar = {acc} decvar listedecvarbis |
+{init} decvar;
+
+listedecvarbis =
+{acc} virgule decvar listedecvarbis|
+{init} virgule decvar ;
+
+decvar =
+{simple} entier identif |
+{complexe} entier identif crochetg nombre crochetd ;
+
+listedecfonc= {init} fonction | {acc} fonction listedecfonc;
+
+initalisation=entiertype identif;
+
+identif={initlettre | nombre;
+identif=identif lettre|identif nombre| nombre identif| lettre identif;
+
+affectation= identif egal nombre | identif egal identif;
+affectation= affectation operateur nombre | affectation operateur identif;
+
+si= si expression alors bloc;
+si2= si sinon bloc;
+
+tantque= tantque expresssion faire bloc;
+retour= retour expression;
+frpre={lecture} lecture | {ecriture} ecriture;
+frsimple=identif parentg lexpr parentd;
+block= accog linstruction accod;
+instruction= tantque|retour|frpre|frsimple|affectation|si|si2;
+linstruction=instruction pointvirgule | {rien};
+linstruction=instruction pointvirgule linstruction;
+
+fonction=identif parentg argument parentd variable bloc;
+argument=identif | identif args;
+args=virgule identif args;
+args=;
+
+variable= identif | identif vars;
+vars=virgule identif;
+vars=;
+
+lecture= var egal lire parentg parentd;
+ecriture=ecrire parentg expression parentd;
+
+tableau=identif crochetd crochetg|crochetd expression crochetg;
+tableauinit= nombre identif tableau;
+
+expression={ou} expression ou t | t;
+t= {et} t et f|f;
+f= {egal} f egal u | {inf} f inf u | u;
+u= {plus} u plus v | {moins} u moins v | v;
+v= {fois} v fois j | {div} v div j | j;
+j= {non} non i|i;
+i=parentg expression parentd | nombre | fonction;
