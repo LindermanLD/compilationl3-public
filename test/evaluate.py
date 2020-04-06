@@ -4,12 +4,18 @@ import sys
 import os
 import subprocess
 
+# Paths relative to this file (evaluate.py)
+inputPath = "./input/"
+refPath = "./"
+srcPath = "../src/"
+compareArbres="./compare_arbres/compare_arbres_xml"
+# Keep empty
 classpath = ""
 
 ################################################################################
 def compileCompiler() :
   print("Compiling Compiler.java...", end="", file=sys.stderr)
-  returnCode = subprocess.Popen("cd ../src/ && javac Compiler.java", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).wait()
+  returnCode = subprocess.Popen("cd %s && javac Compiler.java"%srcPath, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).wait()
   if returnCode == 0 :
     print("Done", file=sys.stderr)
   else :
@@ -20,7 +26,7 @@ def compileCompiler() :
 ################################################################################
 def deleteClasses() :
 
-  for root, subdirs, files in os.walk("..") :
+  for root, subdirs, files in os.walk("%s.."%srcPath) :
     if ".git" in root :
       continue
     for filename in files :
@@ -37,7 +43,7 @@ def findClasspath() :
   if len(classpath) > 0 :
     return classpath
 
-  for root, subdirs, files in os.walk("..") :
+  for root, subdirs, files in os.walk("%s.."%srcPath) :
     if ".git" in root :
       continue
     for filename in files :
@@ -76,7 +82,7 @@ def changeExtension(filename, newExtension) :
 ################################################################################
 def findInputFiles() :
   inputFiles = []
-  for filename in os.listdir('input') :
+  for filename in os.listdir(inputPath) :
     if os.path.splitext(filename)[1] == ".l" :
       inputFiles.append(filename)
   return inputFiles
@@ -84,17 +90,17 @@ def findInputFiles() :
 
 ################################################################################
 def deleteCompilationOutputs() :
-  outputExtensions = [".sa", ".sc", ".ts", ".nasm", ".pre-nasm", ".c3a", ".fg", ".fgs", ".ig"]
-  for filename in os.listdir('input') :
+  outputExtensions = [".exe", ".o", ".out", ".sa", ".sc", ".ts", ".nasm", ".pre-nasm", ".c3a", ".c3aout", ".fg", ".fgs", ".ig"]
+  for filename in os.listdir(inputPath) :
     if os.path.splitext(filename)[1] in outputExtensions :
-      os.remove("input/"+filename)
+      os.remove(inputPath+filename)
 ################################################################################
 
 ################################################################################
 def compileInputFiles(inputFiles) :
   for inputFile in inputFiles :
     print("Compiling %s..."%inputFile, end="", file=sys.stderr)
-    returnCode = subprocess.Popen("{} input/{}".format(compiler(), inputFile), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).wait()
+    returnCode = subprocess.Popen("{} {}{}".format(compiler(), inputPath, inputFile), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).wait()
     if returnCode == 0 :
       print("Done", file=sys.stderr)
     else :
@@ -110,23 +116,22 @@ def getNewEvaluationResult(name) :
 ################################################################################
 def evaluateSa(inputFiles) :
   evaluation = getNewEvaluationResult("Syntaxe Abstraite")
-  compareArbres = "compare_arbres/compare_arbres_xml"
   if not os.path.isfile(compareArbres) :
     print("Executable non trouvé : %s (il faut le compiler)"%compareArbres, file=sys.stderr)
     exit(1)
 
   for filename in inputFiles :
     saFilename = changeExtension(filename, ".sa")
-    if not os.path.isfile("input/"+saFilename) :
+    if not os.path.isfile(inputPath+saFilename) :
       evaluation[1]["notfound"].append(saFilename)
       continue
     
-    saRef = "sa-ref/"+saFilename
+    saRef = refPath+"sa-ref/"+saFilename
     if not os.path.isfile(saRef) :
-      print("Fichier non trouvé : %s"%saRef, file=sys.stderr)
-      exit(1)
+      print("ATTENTION : Fichier non trouvé : %s"%saRef, file=sys.stderr)
+      continue
 
-    res = subprocess.Popen("{} {} input/{}".format(compareArbres, saRef, saFilename), shell=True, stdout=open(os.devnull, "w"), stderr=subprocess.PIPE).stderr.read()
+    res = subprocess.Popen("{} {} {}{}".format(compareArbres, saRef, inputPath, saFilename), shell=True, stdout=open(os.devnull, "w"), stderr=subprocess.PIPE).stderr.read()
     if "egaux" in str(res) :
       evaluation[1]["correct"].append(saFilename)
     else :
@@ -141,22 +146,48 @@ def evaluateDiff(inputFiles, extension, path, name) :
 
   for filename in inputFiles :
     producedFile = changeExtension(filename, extension)
-    if not os.path.isfile("input/"+producedFile) :
+    if not os.path.isfile(inputPath+producedFile) :
       evaluation[1]["notfound"].append(producedFile)
       continue
     
-    ref = path+producedFile
+    ref = refPath+path+producedFile
     if not os.path.isfile(ref) :
-      print("Fichier non trouvé : %s"%ref, file=sys.stderr)
-      exit(1)
+      print("ATTENTION : Fichier non trouvé : %s"%ref, file=sys.stderr)
+      continue
 
-    res = subprocess.Popen("diff {} input/{}".format(ref, producedFile), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.read()
+    res = subprocess.Popen("diff {} {}{}".format(ref, inputPath, producedFile), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.read()
     if len(res.strip()) == 0 :
       evaluation[1]["correct"].append(producedFile)
     else :
       evaluation[1]["incorrect"].append(producedFile)
 
   return evaluation
+################################################################################
+
+################################################################################
+def evaluateNasm(inputFiles) :
+  for filename in inputFiles :
+    nasmFilename = changeExtension(filename, ".nasm")
+    objectFilename = changeExtension(filename, ".o")
+    execFilename = changeExtension(filename, ".exe")
+    outFilename = changeExtension(filename, ".out")
+    if not os.path.isfile(inputPath+nasmFilename) :
+      continue
+
+    out = subprocess.Popen("cd {} && nasm -f elf -dwarf -g {}".format(inputPath+"..","input/"+nasmFilename), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stderr.read()
+    if not os.path.isfile(inputPath+objectFilename) :
+      print(out, file=sys.stderr)
+      continue
+    out = subprocess.Popen("ld -m elf_i386 -o {}{} {}{}".format(inputPath,execFilename,inputPath,objectFilename), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stderr.read()
+    if not os.path.isfile(inputPath+execFilename) :
+      print(out, file=sys.stderr)
+      continue
+    out = subprocess.Popen("{}{} > {}{}".format(inputPath,execFilename,inputPath,outFilename), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stderr.read()
+    if not os.path.isfile(inputPath+outFilename) :
+      print(out, file=sys.stderr)
+      continue
+
+  return evaluateDiff(inputFiles, ".out", "out-ref/", "Execution du nasm")
 ################################################################################
 
 ################################################################################
@@ -199,7 +230,10 @@ if __name__ == "__main__" :
   deleteClasses()
 
   saEvaluation = evaluateSa(inputFiles)
+  saOutEvaluation = evaluateDiff(inputFiles, ".saout", "saout-ref/", "Execution de l'arbre abstrait")
   tsEvaluation = evaluateDiff(inputFiles, ".ts", "ts-ref/", "Table des Symboles")
+  c3aEvaluation = evaluateDiff(inputFiles, ".c3aout", "c3aout-ref/", "Code 3 Adresses")
+  nasmEvaluation = evaluateNasm(inputFiles)
 
   useColor = True
 
@@ -207,6 +241,9 @@ if __name__ == "__main__" :
     print("Légende : {}  {}  {}".format(green("CORRECT"), purple("INCORRECT"), red("NON-EXISTANT")))
 
   printEvaluationResult(sys.stdout, saEvaluation, useColor)
+  printEvaluationResult(sys.stdout, saOutEvaluation, useColor)
   printEvaluationResult(sys.stdout, tsEvaluation, useColor)
+  printEvaluationResult(sys.stdout, c3aEvaluation, useColor)
+  printEvaluationResult(sys.stdout, nasmEvaluation, useColor)
 ################################################################################
 
