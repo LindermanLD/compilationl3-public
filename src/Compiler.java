@@ -1,10 +1,8 @@
 import sa.Sa2Xml;
-import sa.SaEval;
 import sa.SaNode;
 import sc.lexer.Lexer;
 import sc.node.Start;
 import sc.parser.Parser;
-import ts.Ts;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -44,7 +42,7 @@ public class Compiler {
             System.out.println("[PRINT SA]");
             new Sa2Xml(saRoot, baseName);
 
-            System.out.print("[BUILD TS] ");
+            /*System.out.print("[BUILD TS] ");
             Ts table = new Sa2ts(saRoot).getTableGlobale();
 
             System.out.println("[PRINT TS]");
@@ -54,10 +52,10 @@ public class Compiler {
             SaEval saEval = new SaEval(saRoot, table);
 
             System.out.println("[SA OUT]");
-            saEval.affiche(baseName);
+            saEval.affiche(baseName);*/
 
             /*System.out.print("[BUILD C3A] ");
-            C3a c3a = new Sa2c3a(saRoot).getC3a();
+            C3a c3a = new Sa2c3a(saRoot, table).getC3a();
 
             System.out.print("[PRINT C3A] ");
             c3a.affiche(baseName);
@@ -74,17 +72,17 @@ public class Compiler {
             System.out.print("[BUILD FG] ");
             Fg fg = new Fg(nasm);
             System.out.print("[PRINT FG] ");
-            fg.affiche(baseName);
+            fg.print(baseName);
 
             System.out.println("[SOLVE FG]");
             FgSolution fgSolution = new FgSolution(nasm, fg);
-            fgSolution.affiche(baseName);
+            fgSolution.print(baseName);
 
             System.out.print("[BUILD IG] ");
             Ig ig = new Ig(fgSolution);
 
             System.out.print("[PRINT IG] ");
-            ig.affiche(baseName);
+            ig.print(baseName);
 
             System.out.println("[ALLOCATE REGISTERS]");
             ig.allocateRegisters();

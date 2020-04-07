@@ -1,8 +1,14 @@
 package fg;
+
 import nasm.*;
-import util.graph.*;
-import java.util.*;
-import java.io.*;
+import util.graph.Graph;
+import util.graph.Node;
+import util.graph.NodeList;
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fg implements NasmVisitor <Void> {
     public Nasm nasm;
@@ -74,6 +80,4 @@ public class Fg implements NasmVisitor <Void> {
     public Void visit(NasmConstant operand){return null;}
     public Void visit(NasmLabel operand){return null;}
     public Void visit(NasmRegister operand){return null;}
-
-
 }

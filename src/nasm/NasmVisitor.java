@@ -28,8 +28,8 @@ public interface NasmVisitor <T> {
     public T visit(NasmAddress operand);
     public T visit(NasmConstant operand);
     public T visit(NasmLabel operand);
-    public T visit(NasmRegister operand);
 
+    T visit(NasmRegister nasmRegister);
 }
 	
 
