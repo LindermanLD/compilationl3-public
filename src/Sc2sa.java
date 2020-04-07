@@ -70,15 +70,15 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseADecvarentierDecvar(ADecvarentierDecvar node) {
-        String nom = node.getIdentif().getText();
-        returnValue = new SaDecVar(nom);
+        String identif = node.getIdentif().getText();
+        returnValue = new SaDecVar(identif);
     }
 
     @Override
     public void caseADecvartableauDecvar(ADecvartableauDecvar node) {
-        String nom = node.getIdentif().getText();
+        String identif = node.getIdentif().getText();
         int capacity = Integer.parseInt(node.getNombre().getText());
-        returnValue = new SaDecTab(nom, capacity);
+        returnValue = new SaDecTab(identif, capacity);
     }
 
     @Override
@@ -338,14 +338,14 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAVartabVar(AVartabVar node) {
-        String nom = node.getIdentif().getText();
-        this.returnValue = new SaVarIndicee(nom, apply(node.getExp()));
+        String identif = node.getIdentif().getText();
+        this.returnValue = new SaVarIndicee(identif, apply(node.getExp()));
     }
 
     @Override
     public void caseAVarsimpleVar(AVarsimpleVar node) {
-        String nom = node.getIdentif().getText();
-        this.returnValue = new SaVarSimple(nom);
+        String identif = node.getIdentif().getText();
+        this.returnValue = new SaVarSimple(identif);
     }
 
     @Override
@@ -370,14 +370,14 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAAvecparamAppelfct(AAvecparamAppelfct node) {
-        String nom = node.getIdentif().getText();
-        returnValue = new SaAppel(nom, apply(node.getListeexp()));
+        String identif = node.getIdentif().getText();
+        returnValue = new SaAppel(identif, apply(node.getListeexp()));
     }
 
     @Override
     public void caseASansparamAppelfct(ASansparamAppelfct node) {
-        String nom = node.getIdentif().getText();
-        returnValue = new SaAppel(nom, null);
+        String identif = node.getIdentif().getText();
+        returnValue = new SaAppel(identif, null);
     }
 
 }
