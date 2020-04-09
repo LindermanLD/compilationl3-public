@@ -289,8 +289,8 @@ char *BF(void)
       nom = strdup(yytext);
       cc = yylex();
       if(cc == CHEVRON_FERMANT){
-	cc = yylex();
-	return nom;
+	    cc = yylex();
+	    return nom;
       }
     }
   }
