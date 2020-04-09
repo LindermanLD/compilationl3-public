@@ -43,4 +43,4 @@ cd ..
 ## Other people's code
 
 - La grammaire est celle de référence, car la nôtre a une erreur que l'on n'a pas trouvée et donc pour ne pas être en retard sur les tp suivant nous avons utiliser celle de référence.
-- Méthode apply de Sc2sa nous a été donnée par Nicolas BOURRAS afin de réduire le nombre de lignes de la classe.
+- Méthode *apply* de Sc2sa nous a été donnée par Nicolas BOURRAS afin de réduire le nombre de lignes de la classe.
