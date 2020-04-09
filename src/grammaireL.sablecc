@@ -90,8 +90,6 @@ instraffect = var egal exp point_virgule ;
 
 instrbloc = accolade_ouvrante listeinst accolade_fermante ;
 
-//listeinst = instr*;
-
 listeinst =
 {linstrec} instr listeinst |
 {linstfinal} ;
@@ -165,13 +163,13 @@ var =
 {varsimple} identif ;
 
 listeexp =
-{recursif} exp listeexpbis|
+{recursif} exp listeexpbis |
 {final} exp ;
 
 listeexpbis =
-{final} virgule exp |
-{recursif} virgule exp listeexpbis;
+{recursif} virgule exp listeexpbis |
+{final} virgule exp ;
 
 appelfct =
 {avecparam} identif parenthese_ouvrante listeexp parenthese_fermante |
-{sansparam} identif parenthese_ouvrante parenthese_fermante ;
+{sansparam} identif parenthese_ouvrante parenthese_fermante ; 
