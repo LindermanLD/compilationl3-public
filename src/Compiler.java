@@ -1,6 +1,7 @@
 import c3a.C3a;
 import c3a.C3aEval;
 import sa.Sa2Xml;
+import sa.SaEval;
 import sa.SaNode;
 import sc.lexer.Lexer;
 import sc.node.Start;
@@ -51,11 +52,11 @@ public class Compiler {
             System.out.println("[PRINT TS]");
             table.afficheTout(baseName);
 
-            /*System.out.print("[EXEC SA] ");
+            System.out.print("[EXEC SA] ");
             SaEval saEval = new SaEval(saRoot, table);
 
             System.out.println("[SA OUT]");
-            saEval.affiche(baseName);*/
+            saEval.affiche(baseName);
 
             System.out.print("[BUILD C3A] ");
             C3a c3a = new Sa2c3a(saRoot, table).getC3a();
@@ -72,7 +73,7 @@ public class Compiler {
             System.out.println("[PRINT PRE NASM] ");
             nasm.affichePre(baseName);
 
-            /*System.out.print("[BUILD FG] ");
+            System.out.print("[BUILD FG] ");
             Fg fg = new Fg(nasm);
             System.out.print("[PRINT FG] ");
             fg.print(baseName);
